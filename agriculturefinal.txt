@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSense AI - Agricultural Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Animate.css for simple animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --bg-light: #0f5132;
+            --bg-gradient-light: linear-gradient(135deg, #0a3d16 0%, #0f5132 100%);
+            --text-light: #ffffff;
+            --card-bg-light: #ffffff;
+            --primary-color: #4ade80;
+            --primary-hover: #16a34a;
+        }
+        .dark {
+            --bg-light: #062a11;
+            --bg-gradient-light: linear-gradient(135deg, #062a11 0%, #0a3d16 100%);
+            --text-light: #e2e8f0;
+            --card-bg-light: #1e293b;
+            --primary-color: #4ade80;
+            --primary-hover: #22c55e;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .container-bg {
+            background: var(--bg-gradient-light);
+            transition: background 0.3s ease;
+        }
+        .card {
+            background-color: var(--card-bg-light);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .icon-svg {
+            color: var(--primary-color);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover .icon-svg {
+            transform: scale(1.1);
+        }
+        .hidden-section {
+            display: none;
+        }
+        /* Custom Keyframe animation for icons */
+        @keyframes pulse-icon {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        .icon-pulse {
+            animation: pulse-icon 2s infinite ease-in-out;
+        }
+        /* Custom styles for the new feature layout */
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2.5rem;
+            border-radius: 2rem; /* More rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background: linear-gradient(145deg, #e0f2fe, #dbeafe); /* Light blue gradient for light mode */
+            color: #1a202c; /* Dark text for light mode */
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+        }
+        /* Dark mode styles for feature items */
+        .dark .feature-item {
+            background: linear-gradient(145deg, #2a3345, #1d232e); /* Dark gradient for dark mode */
+            color: #e2e8f0; /* Light text for dark mode */
+        }
+        .dark .feature-item.bg-green-50 {
+            background: linear-gradient(145deg, #1f3d2f, #142a1b);
+        }
+        .feature-item.bg-green-50 {
+            background: linear-gradient(145deg, #d1fae5, #a7f3d0); /* Light green gradient */
+        }
+        .feature-item .text-content {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col p-4 sm:p-6 md:p-8 container-bg">
+        <!-- Navigation Menu -->
+        <nav class="w-full max-w-7xl mx-auto mb-8 bg-white dark:bg-gray-800 p-4 rounded-full shadow-lg flex justify-center items-center space-x-4 sm:space-x-8 transition-colors duration-300">
+            <a href="#about" class="page-link text-black dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition duration-300">About</a>
+            <a href="#features" class="page-link text-black dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition duration-300">Features</a>
+            <a href="#how-it-works" class="page-link text-black dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition duration-300">How It Works</a>
+            <a href="#contact" class="page-link text-black dark:text-gray-300 font-medium hover:text-green-600 dark:hover:text-green-400 transition duration-300">Contact</a>
+            <!-- Dark Mode Toggle -->
+            <button id="theme-toggle" class="p-2 rounded-full text-black dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 focus:outline-none">
+                <svg id="sun-icon" class="w-6 h-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg id="moon-icon" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </nav>
+        <main class="w-full max-w-7xl mx-auto flex-grow flex items-center justify-center">
+            <!-- About Section (Default View) -->
+            <section id="about" class="page-section card text-center animate__animated animate__fadeIn">
+                <header class="mb-8">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
+                        Welcome to FarmSense AI 🌾
+                    </h1>
+                    <p class="text-black dark:text-gray-400 max-w-4xl mx-auto text-base sm:text-lg">
+                        Empowering farmers with AI-driven insights for smarter, more sustainable agriculture.
+                    </p>
+                </header>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-8">
+                    <div class="text-left animate__animated animate__fadeInLeft animate__delay-1s">
+                        <h3 class="text-xl font-semibold text-black mb-4">Your Partner in Growth 🧑‍🌾</h3>
+                        <p class="text-black dark:text-gray-400 mb-4">
+                            We bridge traditional wisdom with modern technology, providing tools that optimize operations and boost crop yields.
+                        </p>
+                        <ul class="list-disc list-inside text-black dark:text-gray-400 space-y-2">
+                            <li>Real-time data for precision farming. 💧</li>
+                            <li>AI-powered disease and pest detection. 🦠</li>
+                            <li>Market insights and connectivity. 🛒</li>
+                        </ul>
+                    </div>
+                    <img src="D:\technology-solutions.png" alt="A farmer using technology in a field" class="rounded-xl shadow-lg w-full h-auto animate__animated animate__fadeInRight animate__delay-1s">
+                </div>
+                <button onclick="showPage('features')" class="mt-12 bg-green-600 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:bg-green-700 transition duration-300 animate__animated animate__pulse animate__infinite">
+                    Get Started
+                </button>
+            </section>
+            <!-- Features Section -->
+            <section id="features" class="page-section card text-center hidden-section animate__animated animate__fadeIn">
+                <header class="mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-black mb-4">Key Features ✨</h2>
+                    <p class="text-lg text-black dark:text-gray-400 max-w-2xl mx-auto">
+                        Explore the powerful tools that make FarmSense AI your ultimate farming companion.
+                    </p>
+                </header>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Smart Irrigation -->
+                    <div class="feature-item bg-green-50">
+                        <span class="text-6xl mb-4">💧</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Smart Irrigation</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Optimize water usage based on soil moisture and weather data.</p>
+                        <button class="w-full bg-green-600 text-white font-medium py-2 px-4 rounded-full hover:bg-green-700 transition-colors duration-300">
+                            Schedule Irrigation
+                        </button>
+                    </div>
+
+                    <!-- Disease Detection -->
+                    <div class="feature-item">
+                        <span class="text-6xl mb-4">🦠</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Disease Detection</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Upload a crop image to instantly detect diseases.</p>
+                        <button class="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full hover:bg-blue-700 transition-colors duration-300">
+                            Upload Image
+                        </button>
+                    </div>
+
+                    <!-- Govt Schemes and Subsidies -->
+                    <div class="feature-item bg-green-50">
+                        <span class="text-6xl mb-4">🏛️</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Govt Schemes and Subsidies</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Discover and apply for government schemes and subsidies relevant to your farm.</p>
+                        <button class="w-full bg-purple-600 text-white font-medium py-2 px-4 rounded-full hover:bg-purple-700 transition-colors duration-300">
+                            Explore Schemes
+                        </button>
+                    </div>
+
+                    <!-- Advisory Chatbot -->
+                    <div class="feature-item">
+                        <span class="text-6xl mb-4">🤖</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Advisory Chatbot</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Get instant, multilingual advice on farming practices via a chatbot.</p>
+                        <button class="w-full bg-orange-600 text-white font-medium py-2 px-4 rounded-full hover:bg-orange-700 transition-colors duration-300">
+                            Chat Now
+                        </button>
+                    </div>
+
+                    <!-- Weather Updates -->
+                    <div class="feature-item bg-green-50">
+                        <span class="text-6xl mb-4">🌦️</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Weather Updates</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Hyper-local, five-day weather forecasts to help you plan your planting and harvesting cycles.</p>
+                        <button class="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full hover:bg-blue-700 transition-colors duration-300">
+                            View Forecast
+                        </button>
+                    </div>
+
+                    <!-- Soil Data Analysis -->
+                    <div class="feature-item">
+                        <span class="text-6xl mb-4">🔬</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Soil Analysis</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Detailed reports on soil composition and health, with recommendations for fertilization.</p>
+                        <button class="w-full bg-purple-600 text-white font-medium py-2 px-4 rounded-full hover:bg-purple-700 transition-colors duration-300">
+                            Analyze Soil
+                        </button>
+                    </div>
+
+                    <!-- AI Recommendations -->
+                    <div class="feature-item bg-green-50">
+                        <span class="text-6xl mb-4">💡</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">AI Recommendations</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Personalized advice on crop rotation, planting schedules, and pest control.</p>
+                        <button class="w-full bg-yellow-600 text-white font-medium py-2 px-4 rounded-full hover:bg-yellow-700 transition-colors duration-300">
+                            Get Recommendations
+                        </button>
+                    </div>
+
+                    <!-- Market Connectivity -->
+                    <div class="feature-item">
+                        <span class="text-6xl mb-4">🛒</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Market Connectivity</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Connect with buyers and get real-time market prices for your produce.</p>
+                        <button class="w-full bg-pink-600 text-white font-medium py-2 px-4 rounded-full hover:bg-pink-700 transition-colors duration-300">
+                            View Market Prices
+                        </button>
+                    </div>
+
+                    <!-- Future Planning & Logging -->
+                    <div class="feature-item bg-green-50">
+                        <span class="text-6xl mb-4">✍️</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Planning & Logging</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Log images, notes, and crop status to help plan and optimize your farming for the future.</p>
+                        <button class="w-full bg-indigo-600 text-white font-medium py-2 px-4 rounded-full hover:bg-indigo-700 transition-colors duration-300">
+                            Start Logging
+                        </button>
+                    </div>
+
+                    <!-- Offline First -->
+                    <div class="feature-item">
+                        <span class="text-6xl mb-4">📶</span>
+                        <h3 class="text-xl font-bold text-black dark:text-black mb-2">Offline First: Work without Internet</h3>
+                        <p class="text-sm text-black dark:text-gray-400 mb-4">Access key features and log data even without an internet connection. Data syncs automatically when you reconnect.</p>
+                        <button class="w-full bg-cyan-600 text-white font-medium py-2 px-4 rounded-full hover:bg-cyan-700 transition-colors duration-300">
+                            Learn More
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+            <!-- How It Works Section -->
+            <section id="how-it-works" class="page-section card text-center hidden-section animate__animated animate__fadeIn">
+                <header class="mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-black mb-4">How FarmSense AI Works ⚙️</h2>
+                    <p class="text-lg text-black dark:text-gray-400 max-w-2xl mx-auto">
+                        Our platform simplifies the complexities of modern farming in a few simple steps.
+                    </p>
+                </header>
+                <div class="space-y-8 text-left max-w-4xl mx-auto">
+                    <!-- Step 1 -->
+                    <div class="flex items-start space-x-4 animate__animated animate__fadeInUp animate__delay-1s">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold text-lg shadow-md">1</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold text-black dark:text-gray-300 mb-2">Data Collection 📡</h3>
+                            <p class="text-black dark:text-gray-400">
+                                Our system gathers data from multiple sources: IoT sensors in your fields, satellite imagery, local weather stations, and user-provided inputs like photos and soil samples.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex items-start space-x-4 animate__animated animate__fadeInUp animate__delay-2s">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold text-lg shadow-md">2</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold text-black dark:text-gray-300 mb-2">AI Analysis 🧠</h3>
+                            <p class="text-black dark:text-gray-400">
+                                This raw data is fed into our powerful AI models. Our algorithms process vast amounts of information to detect patterns, predict outcomes, and identify potential issues like crop diseases or nutrient deficiencies.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex items-start space-x-4 animate__animated animate__fadeInUp animate__delay-3s">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold text-lg shadow-md">3</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold text-black dark:text-gray-300 mb-2">Actionable Insights 💡</h3>
+                            <p class="text-black dark:text-gray-400">
+                                The AI's findings are translated into clear, actionable recommendations. You receive real-time alerts and easy-to-understand reports directly on your dashboard, telling you exactly what to do and when.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="flex items-start space-x-4 animate__animated animate__fadeInUp animate__delay-4s">
+                        <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold text-lg shadow-md">4</div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold text-black dark:text-gray-300 mb-2">Take Control 🧑‍💻</h3>
+                            <p class="text-black dark:text-gray-400">
+                                With FarmSense AI, you're always in control. Use our recommendations to schedule irrigation, apply treatments, or connect with markets, all while promoting sustainability and efficiency.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Contact Section -->
+            <section id="contact" class="page-section card text-center hidden-section animate__animated animate__fadeIn">
+                <header class="mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-black dark:text-black mb-4">Contact Us 📞</h2>
+                    <p class="text-base sm:text-lg text-black dark:text-gray-400 max-w-2xl mx-auto">
+                        We're here to help you grow. Get in touch with our team for support, partnership inquiries, or a demo.
+                    </p>
+                </header>
+                <div class="text-left max-w-lg mx-auto space-y-4">
+                    <p class="text-black dark:text-black"><strong>Email:</strong> support@farmsense.ai</p>
+                    <p class="text-black dark:text-black"><strong>Phone:</strong> +1 (555) 123-4567</p>
+                    <p class="text-black dark:text-black"><strong>Address:</strong> FarmSense HQ, Agri-Tech Park, Silicon Valley, USA</p>
+                    <a href="https://play.google.com/store" target="_blank" class="w-full inline-block bg-blue-600 text-white font-medium py-3 px-6 rounded-full hover:bg-blue-700 transition duration-300 text-center">
+                        Download the FarmSense App 📱
+                    </a>
+                    <form class="space-y-4 mt-8">
+                        <input type="text" placeholder="Your Name" class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <input type="email" placeholder="Your Email" class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <textarea placeholder="Your Message" rows="4" class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                        <button type="submit" class="w-full bg-green-600 text-white font-medium py-3 px-6 rounded-full hover:bg-green-700 transition duration-300">
+                            Send Message ➡️
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Check for saved theme preference
+        if (localStorage.theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.getElementById('moon-icon').style.display = 'none';
+            document.getElementById('sun-icon').style.display = 'block';
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.getElementById('moon-icon').style.display = 'block';
+            document.getElementById('sun-icon').style.display = 'none';
+        }
+
+        const showPage = (id) => {
+            const pageSections = document.querySelectorAll('.page-section');
+            pageSections.forEach(section => {
+                section.classList.add('hidden-section');
+                section.classList.remove('animate__animated', 'animate__fadeIn');
+            });
+            const activeSection = document.getElementById(id);
+            if (activeSection) {
+                activeSection.classList.remove('hidden-section');
+                activeSection.classList.add('animate__animated', 'animate__fadeIn');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageLinks = document.querySelectorAll('.page-link');
+
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    showPage(targetId);
+                });
+            });
+
+            // Theme toggle logic
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+
+            themeToggleBtn.addEventListener('click', () => {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                    moonIcon.style.display = 'block';
+                    sunIcon.style.display = 'none';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                    moonIcon.style.display = 'none';
+                    sunIcon.style.display = 'block';
+                }
+            });
+
+            // Expose showPage to global scope for the Get Started button
+            window.showPage = showPage;
+
+            // Handle initial page load with hash
+            const initialHash = window.location.hash.substring(1) || 'about';
+            showPage(initialHash);
+        });
+    </script>
+</body>
+</html>
